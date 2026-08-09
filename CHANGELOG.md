@@ -7,6 +7,9 @@ All notable changes to this project are documented here.
 - Replace the minimal standard and wide examples with one shared, complete component catalog.
 - Render every public visual component page-for-page on both formal canvas profiles.
 - Add a bilingual component inventory and usage map.
+- Promote repeated consumer patterns into generic rail, metadata, comparison, media, hierarchy, ladder, and reference controls.
+- Add sizing hooks used by real decks without introducing profile-specific component forks.
+- Document the consumer-to-public API audit and add a dedicated regression deck.
 
 ## 0.1.1 - 2026-08-09
 

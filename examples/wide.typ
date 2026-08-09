@@ -22,5 +22,11 @@
 #component-catalog(
   profile-name: [Ultra-wide 3:1],
   canvas-label: [30 cm × 10 cm],
-  sample-image: "/assets/attractor/wide/dark-1.svg",
+  sample-images: (
+    "/assets/attractor/wide/dark-1.svg",
+    "/assets/attractor/wide/dark-2.svg",
+    "/assets/attractor/wide/dark-3.svg",
+    "/assets/attractor/wide/dark-4.svg",
+    "/assets/attractor/wide/dark-5.svg",
+  ),
 )

@@ -78,6 +78,24 @@
 #let vertical-card = _engine.vcard
 #let closing-banner = _engine.closing-banner
 
+// Consumer-proven content controls.
+#let rail-card = _engine.rail-card
+#let label-band = _engine.label-band
+#let source-note = _engine.source-note
+#let section-chip = _engine.section-chip
+#let flow-card = _engine.flow-card
+#let chip = _engine.chip
+#let legend-item = _engine.legend-item
+#let comparison-row = _engine.comparison-row
+#let comparison-list = _engine.comparison-list
+#let spec-row = _engine.spec-row
+#let media-card = _engine.media-card
+#let layer = _engine.layer
+#let layer-stack = _engine.layer-stack
+#let ladder-step = _engine.ladder-step
+#let ladder = _engine.ladder
+#let reference-card = _engine.reference-card
+
 // Argument builders and explanatory structures.
 #let contrast = _engine.contrast-pair
 #let milestone = _engine.milestone

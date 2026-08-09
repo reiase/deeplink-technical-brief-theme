@@ -2,7 +2,7 @@
 
 这是一个面向工程汇报与技术说明的 Typst/Touying 主题。画布、字体、配色、品牌槽位与可选背景统一由一个配置对象管理；汇报正文只通过 `lib.typ` 暴露的命名空间 API 编写。
 
-[English README](../README.md) · [配置参考](configuration.md) · [组件参考](components.md) · [迁移指南](migration.md)
+[English README](../README.md) · [配置参考](configuration.md) · [组件参考](components.md) · [消费者控件审计](consumer-control-audit.md) · [迁移指南](migration.md)
 
 ## v0.1.0 的稳定边界
 
@@ -56,7 +56,7 @@ git -C themes/technical-brief checkout v0.1.0
 ]
 ```
 
-[`examples/standard.typ`](../examples/standard.typ) 与 [`examples/wide.typ`](../examples/wide.typ) 会在两种正式画布上逐页渲染同一套完整组件目录。两者共享 [`examples/component-catalog.typ`](../examples/component-catalog.typ)，覆盖全部公开视觉组件，保证 API 演进时两种画布的对照不会漂移。
+[`examples/standard.typ`](../examples/standard.typ) 与 [`examples/wide.typ`](../examples/wide.typ) 会在两种正式画布上逐页渲染同一套完整组件目录。两者共享 [`examples/component-catalog.typ`](../examples/component-catalog.typ)，当前覆盖全部 74 个公开演示组件 API，保证 API 演进时两种画布的对照不会漂移。
 
 ## 团队使用约定
 

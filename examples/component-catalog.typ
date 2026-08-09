@@ -22,7 +22,13 @@
 #let component-catalog(
   profile-name: [Standard 16:9],
   canvas-label: [19.2 cm × 10.8 cm],
-  sample-image: "/assets/attractor/standard/dark-1.svg",
+  sample-images: (
+    "/assets/attractor/standard/dark-1.svg",
+    "/assets/attractor/standard/dark-2.svg",
+    "/assets/attractor/standard/dark-3.svg",
+    "/assets/attractor/standard/dark-4.svg",
+    "/assets/attractor/standard/dark-5.svg",
+  ),
 ) = [
   // ----------------------------------------------------------------------
   // 1. Slide skeletons and foundational composition
@@ -190,7 +196,7 @@
     #brief.columns(
       (1.02fr, 0.98fr),
       brief.image-card(
-        sample-image,
+        sample-images.at(0),
         caption: [主题自带的缓存 attractor 资产，仅用于演示图像容器。],
         height: 3.65cm,
       ),
@@ -316,12 +322,204 @@
   ]
 
   // ----------------------------------------------------------------------
-  // 2. Argument structures
+  // 2. Consumer-proven controls promoted into the public theme
+  // ----------------------------------------------------------------------
+
+  #brief.section-slide(
+    [真实项目沉淀的通用控件],
+    label: [第二部分 · #profile-name],
+    summary: [从 Agent Infra、DeepLink.Next、Probing 与 Fabric 汇报中提炼重复版式，并移除项目名、Logo 与专用图形。],
+    tags: [evidence · comparison · media · hierarchy · references],
+  )
+
+  #brief.content-slide(
+    [rail-card、label-band 与 source-note],
+    lead: [三者分别承载扁平证据、标签化元信息和弱化来源说明；同一形态已在多个真实项目中重复出现。],
+  )[
+    #brief.card-grid(
+      (1fr, 1fr),
+      brief.rail-card(
+        [生命周期需要稳定边界],
+        [一次运行可以重试或迁移，但身份、事实和最终状态必须保持一致。],
+        note: [rail-card · 可选 note],
+        accent: brief.colors.info,
+      ),
+      brief.rail-card(
+        [状态需要成为数据产品],
+        [模型、工具与环境事件共享稳定坐标，才能被回放、评测与复核。],
+        note: [rail-card · 适合并列证据],
+        accent: brief.colors.teal,
+      ),
+    )
+    #v(0.20cm)
+    #brief.label-band(
+      [公开结构参考],
+      [技术报告、系统卡与架构说明可以共用同一条紧凑元信息带。],
+      accent: brief.colors.violet,
+    )
+    #v(0.12cm)
+    #brief.source-note(
+      [Public documentation and reproducible project evidence.],
+      label: [Sources:],
+    )
+  ]
+
+  #brief.content-slide(
+    [section-chip、flow-card 与 chip],
+    lead: [section-chip 提供轻量过渡；flow-card 承载带标签的解释步骤；chip 和 legend-item 处理短状态与图例。],
+  )[
+    #brief.section-chip([运行机制], subtitle: [从持续观察到按需深挖])
+    #v(0.18cm)
+    #brief.columns(
+      (1.15fr, 0.85fr),
+      brief.stack(
+        brief.flow-card([部署时], [保持低成本信号], [持续采集摘要、计数和低频样本，不进入关键路径。], accent: brief.colors.info),
+        brief.flow-card([调查时], [围绕目标放大], [对象和时间窗确定后，再启动高精度分析。], accent: brief.colors.success),
+        gap: 0.16cm,
+      ),
+      brief.info-panel[
+        #text(weight: "bold", fill: brief.colors.navy)[chip · 状态词汇]
+        #v(0.12cm)
+        #brief.stack(
+          brief.legend-item(brief.chip([稳定], accent: brief.colors.success), [已验证且可复核]),
+          brief.legend-item(brief.chip([观察], accent: brief.colors.info), [仍需收集证据]),
+          brief.legend-item(brief.chip([风险], accent: brief.colors.danger), [存在明确失效条件]),
+          gap: 0.14cm,
+        )
+      ],
+    )
+  ]
+
+  #brief.content-slide(
+    [comparison-list 与 comparison-row：富比较行],
+    lead: [当单元格需要状态 chip 或任意内容时，用富比较行；精确数值仍应使用 data-table。],
+  )[
+    #brief.comparison-list(
+      ([候选], [延迟], [扩展], [结论]),
+      brief.comparison-row(
+        [均衡], [方案 A], [默认主线],
+        (brief.chip([良好], accent: brief.colors.success), brief.chip([良好], accent: brief.colors.info)),
+        [无致命短板],
+        accent: brief.colors.info,
+        emphasized: true,
+      ),
+      brief.comparison-row(
+        [低延迟], [方案 B], [局部最优],
+        (brief.chip([最优], accent: brief.colors.success), brief.chip([有限], accent: brief.colors.warning)),
+        [适合小范围],
+        accent: brief.colors.orange,
+      ),
+      brief.comparison-row(
+        [可扩展], [方案 C], [规模优先],
+        (brief.chip([一般], accent: brief.colors.warning), brief.chip([最优], accent: brief.colors.success)),
+        [保留验证],
+        accent: brief.colors.violet,
+      ),
+      columns: (2.60cm, 1fr, 1fr, 1.70fr),
+    )
+  ]
+
+  #brief.content-slide(
+    [media-card 与 spec-row：带图规格卡],
+    lead: [一个统一组件覆盖工作负载卡、拓扑卡、姿态卡和图文面板；差异只由可选标签、徽章、规格与页脚表达。],
+  )[
+    #brief.columns(
+      (1fr, 1fr),
+      brief.media-card(
+        [持续采集],
+        sample-images.at(1),
+        subtitle: [runtime · low-cost signals],
+        tag: [运行时],
+        badge: [低成本],
+        specs: (
+          brief.spec-row([范围], [全局持续]),
+          brief.spec-row([输出], [摘要与索引]),
+        ),
+        footer: [偏好：固定预算 · 可长期保留],
+        accent: brief.colors.info,
+      ),
+      brief.media-card(
+        [按需分析],
+        sample-images.at(2),
+        subtitle: [investigation · high fidelity],
+        tag: [调查],
+        specs: (
+          brief.spec-row([范围], [目标对象与时间窗]),
+          brief.spec-row([输出], [完整证据包]),
+        ),
+        footer: [偏好：高精度 · 可独立复核],
+        accent: brief.colors.violet,
+      ),
+    )
+  ]
+
+  #brief.content-slide(
+    [layer-stack 与 layer：表达责任层级],
+    lead: [layer 是参数构造器，layer-stack 把同一系统中的能力域按依赖或责任从上到下排列。],
+    takeaway: [层级图回答“谁依赖谁”；流程图回答“先做什么”。],
+  )[
+    #brief.columns(
+      (1fr, 1fr),
+      brief.layer-stack(
+        brief.layer([应用层], [面向用户的问题、交互与工作流。], accent: brief.colors.violet),
+        brief.layer([运行层], [执行、调度、隔离与状态管理。], accent: brief.colors.orange),
+        brief.layer([数据层], [不可变事实、索引、查询与证据。], accent: brief.colors.success),
+      ),
+      brief.layer-stack(
+        brief.layer([控制面], [声明策略、预算和触发条件。], accent: brief.colors.info),
+        brief.layer([数据面], [采集与传输保持可替换。], accent: brief.colors.teal),
+        brief.layer([验证面], [通过对照实验确认边界。], accent: brief.colors.warning),
+      ),
+    )
+  ]
+
+  #brief.content-slide(
+    [ladder 与 ladder-step：纵向递进],
+    lead: [ladder-step 同时容纳编号、可选媒体、量级与解释；ladder 自动组织连接关系。],
+  )[
+    #brief.ladder(
+      brief.ladder-step([1], [发现], [全局 · 持续], [用固定低预算信号发现异常。], accent: brief.colors.info),
+      brief.ladder-step([2], [定位], [对象 · 时间窗], [用查询缩小需要观察的范围。], media: sample-images.at(3), accent: brief.colors.teal),
+      brief.ladder-step([3], [深挖], [局部 · 高精度], [在目标范围启动昂贵工具。], accent: brief.colors.orange),
+      brief.ladder-step([4], [复核], [证据 · 可重复], [保存完整性信息与复现步骤。], media: sample-images.at(4), accent: brief.colors.violet),
+      media-width: 1.35cm,
+    )
+  ]
+
+  #brief.content-slide(
+    [reference-card：引用与主张同框],
+    lead: [reference-card 把类别、标题、引用编号与简短判断绑定，适合标准、论文、供应链或竞品证据。],
+  )[
+    #brief.card-grid(
+      (1fr, 1fr, 1fr),
+      brief.reference-card(
+        [标准], [接口契约], [§2.1],
+        [字段、状态和错误语义应当能被独立实现与验证。],
+        accent: brief.colors.info,
+        height: 2.65cm,
+      ),
+      brief.reference-card(
+        [论文], [方法边界], [Fig. 3],
+        [引用结论时同时保留适用范围、实验条件和限制。],
+        accent: brief.colors.violet,
+        height: 2.65cm,
+      ),
+      brief.reference-card(
+        [实现], [复现入口], [commit],
+        [把代码版本、配置和数据范围连接到可重复步骤。],
+        accent: brief.colors.success,
+        height: 2.65cm,
+      ),
+    )
+  ]
+
+  // ----------------------------------------------------------------------
+  // 3. Argument structures
   // ----------------------------------------------------------------------
 
   #brief.section-slide(
     [逻辑型组件：让版式形状承载论证],
-    label: [第二部分 · #profile-name],
+    label: [第三部分 · #profile-name],
     summary: [先判断内容关系，再选择对比、象限、因果、阶段、框架或取舍组件。],
     tags: [contrast · quadrant · causal chain · decision structures],
   )

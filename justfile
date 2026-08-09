@@ -10,6 +10,7 @@ check:
     typst compile tests/smoke-headings.typ {{build_dir}}/smoke-headings.pdf --root .
     typst compile tests/smoke-attractor.typ {{build_dir}}/smoke-attractor.pdf --root .
     typst compile tests/smoke-attractor-compute.typ {{build_dir}}/smoke-attractor-compute.pdf --root .
+    typst compile tests/smoke-consumer-controls.typ {{build_dir}}/smoke-consumer-controls.pdf --root .
     typst compile examples/standard.typ {{build_dir}}/example-standard.pdf --root .
     typst compile examples/wide.typ {{build_dir}}/example-wide.pdf --root .
 

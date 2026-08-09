@@ -22,5 +22,11 @@
 #component-catalog(
   profile-name: [Standard 16:9],
   canvas-label: [19.2 cm × 10.8 cm],
-  sample-image: "/assets/attractor/standard/dark-1.svg",
+  sample-images: (
+    "/assets/attractor/standard/dark-1.svg",
+    "/assets/attractor/standard/dark-2.svg",
+    "/assets/attractor/standard/dark-3.svg",
+    "/assets/attractor/standard/dark-4.svg",
+    "/assets/attractor/standard/dark-5.svg",
+  ),
 )
