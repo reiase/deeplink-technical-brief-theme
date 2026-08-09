@@ -333,6 +333,38 @@
   )
 
   #brief.content-slide(
+    [flat-card：固定高度的扁平证据卡],
+    lead: [色轨收在卡片内部，固定高度让并列信息保持稳定节奏；可选 note 用于补充口径或状态。],
+    takeaway: [规则化网格优先使用 flat-card；内容长度不确定时改用自适应的 rail-card。],
+  )[
+    #brief.card-grid(
+      (1fr, 1fr),
+      brief.flat-card(
+        [事实边界],
+        [身份、状态与证据保持稳定，重试和迁移不会改变事实坐标。],
+        accent: brief.colors.info,
+        note: [稳定语义 · 可回放],
+      ),
+      brief.flat-card(
+        [观察预算],
+        [默认保持全局可见，只在触发条件满足时放大局部细节。],
+        accent: brief.colors.teal,
+        note: [持续观察 · 按需深挖],
+      ),
+      brief.flat-card(
+        [责任归属],
+        [每个判断都绑定输入、执行者与验收条件，避免结论悬空。],
+        accent: brief.colors.violet,
+      ),
+      brief.flat-card(
+        [交付信号],
+        [结果以可复核的状态变化结束，而不是停留在过程描述。],
+        accent: brief.colors.success,
+      ),
+    )
+  ]
+
+  #brief.content-slide(
     [rail-card、label-band 与 source-note],
     lead: [三者分别承载扁平证据、标签化元信息和弱化来源说明；同一形态已在多个真实项目中重复出现。],
   )[

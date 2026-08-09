@@ -14,7 +14,8 @@ The following local helpers already have public equivalents and should not creat
 
 | Consumer pattern / 消费者模式 | Evidence / 使用证据 | Public API / 公共 API |
 |---|---|---|
-| `flat-card` and repeated left-rail cards | Agent Infra; DeepLink.Next | `rail-card` |
+| `flat-card` with an inset rail and fixed height | Agent Infra | `flat-card` |
+| Repeated edge-rail cards with variable content | Agent Infra; DeepLink.Next | `rail-card` |
 | `plain-band` | Agent Infra references | `label-band` |
 | `source-line` and small methodology footers | Agent Infra; Probing | `source-note` |
 | `section-chip` | DeepLink Fabric v5 | `section-chip` |

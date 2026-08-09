@@ -6,7 +6,7 @@ The two formal examples are a page-for-page comparison of the same catalog:
 - [`examples/wide.typ`](../examples/wide.typ): 30 cm × 10 cm (`wide` profile)
 - [`examples/component-catalog.typ`](../examples/component-catalog.typ): shared slide content
 
-两个正式示例逐页使用同一份组件目录，分别验证 19.2 cm × 10.8 cm 标准画布与 30 cm × 10 cm 超宽画布。当前目录覆盖全部 74 个公开演示组件 API；新增或修改公开组件时，只需在共享目录中维护一次，两种配置会同时接受编译和视觉检查。
+两个正式示例逐页使用同一份组件目录，分别验证 19.2 cm × 10.8 cm 标准画布与 30 cm × 10 cm 超宽画布。当前目录覆盖全部 75 个公开演示组件 API；新增或修改公开组件时，只需在共享目录中维护一次，两种配置会同时接受编译和视觉检查。
 
 ## Slide skeletons / 页面骨架
 
@@ -36,7 +36,7 @@ These controls generalize repeated local helpers found in the consumer repositor
 
 | Relationship / 关系 | Renderer / 渲染组件 | Builder / 参数构造器 |
 |---|---|---|
-| Flat evidence / 扁平证据 | `rail-card` | — |
+| Flat evidence / 扁平证据 | `flat-card`, `rail-card` | — |
 | Labelled metadata / 标签元信息 | `label-band`, `source-note`, `section-chip` | — |
 | Labelled explanation / 带标签解释 | `flow-card` | — |
 | Compact states and legends / 状态与图例 | `chip`, `legend-item` | — |
@@ -47,6 +47,10 @@ These controls generalize repeated local helpers found in the consumer repositor
 | Referenced claim / 带引用主张 | `reference-card` | — |
 
 ## Sizing extensions / 尺寸扩展
+
+`flat-card` defaults to a fixed `2.05cm` height and keeps its accent rail inside the border; `rail-card` defaults to auto height and places the rail on the outer edge. Both accept `accent` and an optional `note`.
+
+`flat-card` 默认高 `2.05cm`，色轨位于边框内部；`rail-card` 默认自适应高度，色轨贴合外缘。两者都支持 `accent` 与可选 `note`。
 
 Real decks also exposed a smaller parameter gap rather than a new semantic component. The public API therefore accepts these backward-compatible options:
 

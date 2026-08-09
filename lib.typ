@@ -79,6 +79,7 @@
 #let closing-banner = _engine.closing-banner
 
 // Consumer-proven content controls.
+#let flat-card = _engine.flat-card
 #let rail-card = _engine.rail-card
 #let label-band = _engine.label-band
 #let source-note = _engine.source-note

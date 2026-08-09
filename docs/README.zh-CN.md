@@ -56,7 +56,7 @@ git -C themes/technical-brief checkout v0.1.0
 ]
 ```
 
-[`examples/standard.typ`](../examples/standard.typ) 与 [`examples/wide.typ`](../examples/wide.typ) 会在两种正式画布上逐页渲染同一套完整组件目录。两者共享 [`examples/component-catalog.typ`](../examples/component-catalog.typ)，当前覆盖全部 74 个公开演示组件 API，保证 API 演进时两种画布的对照不会漂移。
+[`examples/standard.typ`](../examples/standard.typ) 与 [`examples/wide.typ`](../examples/wide.typ) 会在两种正式画布上逐页渲染同一套完整组件目录。两者共享 [`examples/component-catalog.typ`](../examples/component-catalog.typ)，当前覆盖全部 75 个公开演示组件 API，保证 API 演进时两种画布的对照不会漂移。
 
 ## 团队使用约定
 

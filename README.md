@@ -58,7 +58,7 @@ Then author a deck through the namespace:
 ]
 ```
 
-[`examples/standard.typ`](examples/standard.typ) and [`examples/wide.typ`](examples/wide.typ) render the same complete component catalog on both formal canvases. The shared source [`examples/component-catalog.typ`](examples/component-catalog.typ) currently covers all 74 public presentation component APIs, so profile comparisons stay page-for-page identical as the API evolves.
+[`examples/standard.typ`](examples/standard.typ) and [`examples/wide.typ`](examples/wide.typ) render the same complete component catalog on both formal canvases. The shared source [`examples/component-catalog.typ`](examples/component-catalog.typ) currently covers all 75 public presentation component APIs, so profile comparisons stay page-for-page identical as the API evolves.
 
 ## Brand assets stay with the consumer
 

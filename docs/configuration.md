@@ -34,12 +34,14 @@ brief.canvas(width: 19.2cm, height: 10.8cm, profile: "auto")
   body-fonts: ("Source Han Sans SC", "Noto Sans CJK SC"),
   code-fonts: ("JetBrains Mono",),
   body-size: 9.2pt,
-  slide-title-size: 20pt,
-  deck-title-size: 30pt,
+  slide-title-size: 18pt,
+  deck-title-size: 28pt,
 )
 ```
 
 Use static font files in CI and production exports. Variable Source Han font collections currently produce a Typst warning and can render incorrectly.
+
+The defaults target a balanced technical briefing: body copy keeps its previous information capacity, while slide and deck titles use a calmer ratio. Component title, body, note, and tag sizes follow one internal semantic scale and remain available through `brief.tokens`.
 
 ## Brand slots / 品牌槽位
 

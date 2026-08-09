@@ -9,6 +9,7 @@
   #brief.columns(
     (1fr, 1fr),
     brief.stack(
+      brief.flat-card([Flat evidence], [A fixed-height inset-rail card compiles.], note: [Optional note.]),
       brief.rail-card([Evidence], [A reusable rail card compiles.], note: [Optional note.]),
       brief.label-band([Scope], [Generic content only.]),
       brief.flow-card([Step], [Narrow the window], [Then enable detailed analysis.]),
