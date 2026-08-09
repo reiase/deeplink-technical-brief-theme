@@ -10,3 +10,12 @@
 
 #brief.title-slide()
 #brief.content-slide([Content])[#brief.card([OK])[Standard profile compiles.]]
+#brief.content-slide([Card grid], takeaway: [Every card remains one grid cell.])[
+  #brief.card-grid(
+    (1fr, 1fr),
+    brief.card([One])[First cell.],
+    brief.card([Two])[Second cell.],
+    brief.card([Three])[Third cell.],
+    brief.card([Four])[Fourth cell.],
+  )
+]

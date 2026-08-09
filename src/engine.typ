@@ -896,12 +896,10 @@
 }
 
 #let _card-grid-cells(children) = {
-  let raw = ()
-  for child in children.pos() {
-    for item in _content-items(child) {
-      raw.push(item)
-    }
-  }
+  // Public cards are already rendered content. Treat every positional child as
+  // one grid cell; inspecting its content children would split a card's own
+  // title/body structure into unrelated cells.
+  let raw = children.pos()
   let cells = ()
   for i in range(raw.len()) {
     cells.push(render-layout(raw.at(i), index: i))
