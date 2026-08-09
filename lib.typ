@@ -21,7 +21,11 @@
 #let title-slide = _engine.public-title-slide
 #let content-slide = _engine.public-content-slide
 
-#let section-slide(title, label: auto, summary: none, tags: none, body: none) = {
+#let section-slide(..args, title: auto, label: auto, summary: none, tags: none, body: none) = {
+  let positional = args.pos()
+  assert(positional.len() <= 1, message: "section-slide accepts at most one positional title")
+  let resolved-title = if positional.len() == 1 { positional.first() } else { title }
+  assert(resolved-title != auto, message: "section-slide requires a title")
   let details = [
     #if summary != none { summary }
     #if tags != none {
@@ -33,7 +37,7 @@
       body
     }
   ]
-  _engine.public-section-slide(title: title, label: label, body: details)
+  _engine.public-section-slide(title: resolved-title, label: label, body: details)
 }
 
 // Layout primitives.
