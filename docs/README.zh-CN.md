@@ -37,6 +37,13 @@ git -C themes/technical-brief checkout v0.1.0
 
 #brief.title-slide()
 
+#brief.section-slide(
+  [系统架构],
+  label: [第一部分],
+  summary: [章节页只保留一句用于建立阅读框架的说明。],
+  tags: [运行时 · 存储 · 控制面],
+)
+
 #brief.content-slide(
   [结论先行],
   takeaway: [先让读者看到结论，再展开技术细节。],

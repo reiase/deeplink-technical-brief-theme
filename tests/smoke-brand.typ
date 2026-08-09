@@ -13,5 +13,5 @@
 )
 
 #brief.title-slide()
-#brief.section-slide(title: [Brand-neutral structure])
+#brief.section-slide([Brand-neutral structure])
 #brief.content-slide([Consumer-owned slots])[#brief.card([OK])[Marks render without a theme-owned asset path.]]

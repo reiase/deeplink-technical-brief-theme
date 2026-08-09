@@ -19,8 +19,22 @@
 // Runtime and slide skeletons.
 #let theme = _engine.theme
 #let title-slide = _engine.public-title-slide
-#let section-slide = _engine.public-section-slide
 #let content-slide = _engine.public-content-slide
+
+#let section-slide(title, label: auto, summary: none, tags: none, body: none) = {
+  let details = [
+    #if summary != none { summary }
+    #if tags != none {
+      if summary != none { v(0.20cm) }
+      tags
+    }
+    #if body != none {
+      if summary != none or tags != none { v(0.20cm) }
+      body
+    }
+  ]
+  _engine.public-section-slide(title: title, label: label, body: details)
+}
 
 // Layout primitives.
 #let render = _engine.render-layout
@@ -84,6 +98,18 @@
 // Semantic colors are data, so a brand can choose them explicitly without
 // importing implementation tokens from src/engine.typ.
 #let colors = (
+  navy: _engine.navy,
+  blue: _engine.blue,
+  blue-soft: _engine.blue2,
+  gold: _engine.gold,
+  teal: _engine.teal,
+  paper: _engine.paper,
+  ink: _engine.ink,
+  muted: _engine.muted-color,
+  border: _engine.border,
+  pale: _engine.pale,
+  light: _engine.light,
+  row-alt: _engine.rowalt,
   info: _engine.info-color,
   success: _engine.ok-color,
   warning: _engine.warn-color,
@@ -94,3 +120,26 @@
   slate: _engine.slate-color,
   ghost: _engine.ghost-color,
 )
+
+#let tokens = (
+  card-radius: _engine.card-radius,
+  chip-radius: _engine.chip-radius,
+  card-stroke: _engine.card-stroke,
+  card-accent-stroke: _engine.card-accent-stroke,
+  card-inset: _engine.card-inset,
+  card-title-size: _engine.fs-card-title,
+  card-body-size: _engine.fs-card-body,
+  card-note-size: _engine.fs-card-note,
+  tag-size: _engine.fs-tag,
+  layout-gap: _engine.layout-gap,
+)
+
+#let palettes = (
+  semantic: _engine.semantic-accent-palette,
+  google: _engine.google-accent-palette,
+  material: _engine.material-accent-palette,
+  classic-mac: _engine.classic-mac-accent-palette,
+)
+
+#let brand-rule = _engine.brand-rule
+#let ending-strip = _engine.ending-strip

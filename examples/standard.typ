@@ -13,7 +13,7 @@
 
 #brief.title-slide()
 
-#brief.section-slide(title: [A small, explicit API], body: [Configure the canvas and brand once; author slides with stable semantic components.])
+#brief.section-slide([A small, explicit API], body: [Configure the canvas and brand once; author slides with stable semantic components.])
 
 #brief.content-slide(
   [Design goals],

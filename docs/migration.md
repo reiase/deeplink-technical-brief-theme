@@ -11,7 +11,7 @@ This repository intentionally provides one new namespaced API. It does not expor
 3. Replace the old global import with `#import "themes/technical-brief/lib.typ" as brief`.
 4. Create one `brief.theme-config(...)` and one `brief.metadata(...)` near the top of each deck.
 5. Replace the old show rule with `#show: brief.theme.with(config: config, metadata: info)`.
-6. Convert explicit pages to `brief.title-slide`, `brief.section-slide`, and `brief.content-slide`.
+6. Convert explicit pages to `brief.title-slide`, `brief.section-slide`, and `brief.content-slide`; map divider `category`/`hint` to `label`/`summary`.
 7. Prefix semantic components with `brief.` and use the normalized names below.
 8. Keep organization/event assets in the consumer repository and wire them through `brief.brand(...)`.
 9. Compile and visually inspect every page before removing the old local theme files.

@@ -39,6 +39,13 @@ Then author a deck through the namespace:
 
 #brief.title-slide()
 
+#brief.section-slide(
+  [Architecture],
+  label: [Part 1],
+  summary: [A section page can carry one concise framing sentence.],
+  tags: [runtime · storage · control plane],
+)
+
 #brief.content-slide(
   [Decision summary],
   takeaway: [Make the conclusion visible before the detail.],
