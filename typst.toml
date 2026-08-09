@@ -1,0 +1,11 @@
+[package]
+name = "deeplink-technical-brief-theme"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["reiase", "DeepLink Community"]
+license = "MIT"
+description = "A configurable Typst and Touying theme for technical briefings."
+repository = "https://github.com/reiase/deeplink-technical-brief-theme"
+keywords = ["presentation", "technical-brief", "touying"]
+categories = ["presentation"]
+compiler = "0.14.2"
