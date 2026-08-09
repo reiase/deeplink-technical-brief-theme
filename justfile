@@ -8,12 +8,15 @@ check:
     typst compile tests/smoke-wide.typ {{build_dir}}/smoke-wide.pdf --root .
     typst compile tests/smoke-brand.typ {{build_dir}}/smoke-brand.pdf --root .
     typst compile tests/smoke-headings.typ {{build_dir}}/smoke-headings.pdf --root .
+    typst compile tests/smoke-visual-hierarchy.typ {{build_dir}}/smoke-visual-hierarchy.pdf --root .
     typst compile tests/smoke-attractor.typ {{build_dir}}/smoke-attractor.pdf --root .
     typst compile tests/smoke-attractor-compute.typ {{build_dir}}/smoke-attractor-compute.pdf --root .
+    typst compile tests/smoke-consumer-controls.typ {{build_dir}}/smoke-consumer-controls.pdf --root .
     typst compile examples/standard.typ {{build_dir}}/example-standard.pdf --root .
     typst compile examples/wide.typ {{build_dir}}/example-wide.pdf --root .
 
 render:
+    rm -rf {{build_dir}}/rendered/standard {{build_dir}}/rendered/wide
     mkdir -p {{build_dir}}/rendered/standard {{build_dir}}/rendered/wide
     typst compile examples/standard.typ '{{build_dir}}/rendered/standard/page-{0p}-of-{t}.png' --root . --ppi 144
     typst compile examples/wide.typ '{{build_dir}}/rendered/wide/page-{0p}-of-{t}.png' --root . --ppi 144

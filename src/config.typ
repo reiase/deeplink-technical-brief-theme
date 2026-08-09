@@ -39,8 +39,8 @@
   body-fonts: ("Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC"),
   code-fonts: ("JetBrains Mono",),
   body-size: 9.2pt,
-  slide-title-size: 20pt,
-  deck-title-size: 30pt,
+  slide-title-size: 18pt,
+  deck-title-size: 28pt,
 ) = {
   assert(body-fonts.len() >= 1, message: "typography.body-fonts must not be empty")
   assert(code-fonts.len() >= 1, message: "typography.code-fonts must not be empty")

@@ -166,7 +166,7 @@
 #let deck-fonts = ("Source Han Sans SC VF", "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei")
 #let code-fonts = ("JetBrains Mono", "Noto Sans Mono CJK SC", "Menlo")
 #let deck-font-size = 9.2pt
-#let layout-gap = 0.26cm
+#let layout-gap = 0.30cm
 
 // ---- Component Tokens -----------------------------------------------------
 // One shared geometry/typography vocabulary for every card-like component,
@@ -175,11 +175,16 @@
 #let chip-radius = 6pt        // small cells / pills / captions
 #let card-stroke = 0.5pt + border
 #let card-accent-stroke = 2.8pt // width of the colored left bar on cards
-#let card-inset = (x: 10pt, y: 8.5pt)
-#let fs-card-title = 7.25pt   // card headline
-#let fs-card-body = 6.05pt    // card body text
-#let fs-card-note = 5.45pt    // card footnote / meta
-#let fs-tag = 6pt             // pill/badge label text
+#let card-inset = (x: 10pt, y: 9pt)
+// Role-based type scale. Component implementations should use these tokens
+// instead of accumulating unrelated 5–7pt literals.
+#let fs-source = 5.2pt        // source / methodology notes only
+#let fs-label = 5.6pt         // compact labels and tertiary metadata
+#let fs-card-note = 5.8pt     // card footnote / meta
+#let fs-tag = 6.2pt           // pill/badge label text
+#let fs-compact-body = 6.4pt  // dense tables, legends, and comparison rows
+#let fs-card-body = 6.6pt     // ordinary component body text
+#let fs-card-title = 7.6pt    // card headline
 
 #let page-number(fill: muted-color) = context {
   let current = utils.slide-counter.get().first()
@@ -714,7 +719,7 @@
 
 // ---- Text Helpers -------------------------------------------------------
 
-#let intro(body) = text(size: 7.3pt, fill: muted-color)[
+#let intro(body) = text(size: 7.8pt, fill: muted-color)[
   #set par(leading: 0.88em)
   #body
 ]
@@ -1210,7 +1215,15 @@
 ]
 
 // 公式卡：标题 + 白底公式框 + 一句解释。
-#let formula-card(title, formula, body, accent: info-color) = block(
+#let formula-card(
+  title,
+  formula,
+  body,
+  accent: info-color,
+  title-size: fs-card-title,
+  formula-size: 8pt,
+  body-size: fs-compact-body,
+) = block(
   width: 100%,
   fill: accent.lighten(94%),
   radius: card-radius,
@@ -1218,12 +1231,12 @@
   inset: (x: 8pt, y: 6pt),
 )[
   #stack(dir: ttb, spacing: 3pt,
-    text(size: 7pt, weight: "bold", fill: accent.darken(18%))[#title],
+    text(size: title-size, weight: "bold", fill: accent.darken(18%))[#title],
     block(width: 100%, fill: white, radius: 5pt, inset: (x: 6pt, y: 4pt), stroke: 0.4pt + accent.lighten(55%))[
-      #set text(size: 7.5pt, fill: navy)
+      #set text(size: formula-size, fill: navy)
       #formula
     ],
-    text(size: 5.8pt, fill: ink)[#set par(leading: 0.9em); #body],
+    text(size: body-size, fill: ink)[#set par(leading: 0.9em); #body],
   )
 ]
 
@@ -1233,14 +1246,15 @@
   stroke: 0.5pt + accent.lighten(45%), inset: (x: 7pt, y: 5pt),
 )[
   #stack(dir: ttb, spacing: 2pt,
-    text(size: 6.1pt, weight: "bold", fill: accent)[#title],
-    text(size: 5.5pt, fill: ink)[#set par(leading: 0.86em); #body],
+    text(size: fs-compact-body, weight: "bold", fill: accent)[#title],
+    text(size: fs-card-body, fill: ink)[#set par(leading: 0.90em); #body],
   )
 ]
 
 // 里程碑条目：编号圆点 + 名称 + 状态注；emphasized 高亮进行中的阶段。
-#let stage-item(marker, name, sub, accent: info-color, sub-color: muted-color, emphasized: false) = block(
+#let stage-item(marker, name, sub, accent: info-color, sub-color: muted-color, emphasized: false, height: auto) = block(
   width: 100%,
+  height: height,
   fill: if emphasized { accent.lighten(93%) } else { white },
   radius: card-radius,
   stroke: if emphasized { 0.9pt + accent } else { card-stroke },
@@ -1251,8 +1265,8 @@
       #align(center + horizon, text(size: 7.5pt, weight: "bold", fill: white)[#marker])
     ]),
     stack(dir: ttb, spacing: 2.5pt,
-      text(size: 7.4pt, weight: "bold", fill: navy)[#name],
-      text(size: 6.3pt, weight: if emphasized { "bold" } else { "regular" }, fill: sub-color)[#sub],
+      text(size: fs-card-title, weight: "bold", fill: navy)[#name],
+      text(size: fs-compact-body, weight: if emphasized { "bold" } else { "regular" }, fill: sub-color)[#sub],
     ),
   )
 ]
@@ -1269,10 +1283,420 @@
 // 结论横幅：实心色底 + 药丸标签 + 一句白字结论（claim-block 的单行变体）。
 #let banner-strip(tag, body, accent: ok-color) = block(width: 100%, fill: accent, radius: card-radius, inset: (x: 10pt, y: 7.5pt))[
   #grid(columns: (auto, 1fr), column-gutter: 9pt, align: (left + horizon, left + horizon),
-    box(fill: white.transparentize(80%), inset: (x: 5pt, y: 2pt), radius: 4pt)[#text(size: 6.2pt, weight: "bold", fill: white)[#tag]],
-    text(size: 6.6pt, weight: "semibold", fill: white)[#set par(leading: 0.92em); #body],
+    box(fill: white.transparentize(80%), inset: (x: 5pt, y: 2pt), radius: 4pt)[#text(size: fs-tag, weight: "bold", fill: white)[#tag]],
+    text(size: 6.8pt, weight: "semibold", fill: white)[#set par(leading: 0.92em); #body],
   )
 ]
+
+// ---- Consumer-proven content controls ---------------------------------
+// These components generalize repeated local helpers found across real
+// technical decks. They deliberately accept content slots rather than
+// consumer-specific assets or product vocabulary.
+
+// Fixed-height flat card with an inset semantic rail. Unlike rail-card, the
+// accent stays inside the card border so dense, aligned grids retain a softer
+// outer silhouette.
+#let flat-card(title, body, accent: info-color, height: 2.05cm, note: none) = rect(
+  width: 100%,
+  height: height,
+  fill: white,
+  stroke: 0.55pt + border,
+  radius: 8pt,
+  inset: (x: 9pt, y: 8pt),
+)[
+  #grid(
+    columns: (0.09cm, 1fr),
+    rows: (1fr,),
+    column-gutter: 0.18cm,
+    rect(width: 0.09cm, height: 100%, fill: accent, radius: 3pt),
+    stack(
+      dir: ttb,
+      spacing: 4pt,
+      text(size: fs-card-title, weight: "bold", fill: navy)[#title],
+      text(size: fs-card-body, fill: ink)[#set par(leading: 0.90em); #body],
+      if note == none { [] } else { text(size: fs-card-note, fill: muted-color)[#note] },
+    ),
+  )
+]
+
+// Flat evidence card with a narrow semantic rail and optional note.
+#let rail-card(title, body, note: none, accent: auto, height: auto) = _with-auto-accent(accent, accent => block(
+  width: 100%,
+  height: height,
+  fill: white,
+  stroke: card-stroke,
+  radius: card-radius,
+  clip: true,
+  inset: 0pt,
+)[
+  #grid(
+    columns: (0.10cm, 1fr),
+    rows: if height == auto { auto } else { (1fr,) },
+    grid.cell(fill: accent)[],
+    grid.cell(inset: (x: 9pt, y: 8pt))[
+      #stack(
+        dir: ttb,
+        spacing: 4pt,
+        text(size: fs-card-title, weight: "bold", fill: navy)[#title],
+        text(size: fs-card-body, fill: ink)[#set par(leading: 0.90em); #body],
+        if note == none { [] } else { text(size: fs-card-note, fill: muted-color)[#note] },
+      )
+    ],
+  )
+])
+
+// One-line labelled band for references, constraints, or summary metadata.
+#let label-band(label, body, accent: auto, label-width: 2.45cm) = _with-auto-accent(accent, accent => block(
+  width: 100%,
+  fill: accent.lighten(92%),
+  stroke: 0.55pt + accent.lighten(60%),
+  radius: chip-radius,
+  inset: (x: 9pt, y: 7pt),
+)[
+  #grid(
+    columns: (label-width, 1fr),
+    column-gutter: 0.18cm,
+    align: horizon,
+    text(size: 6.8pt, weight: "bold", fill: accent)[#label],
+    text(size: fs-compact-body, fill: ink)[#body],
+  )
+])
+
+// Small source or methodology line intended to sit below evidence.
+#let source-note(body, label: none, size: fs-source, fill: muted-color) = block(width: 100%)[
+  #set text(size: size, fill: fill)
+  #if label != none {
+    text(weight: "bold")[#label]
+    h(3pt)
+  }
+  #body
+]
+
+// Lightweight section marker that can live inside a content-slide lead.
+#let section-chip(label, subtitle: none, accent: navy) = block(width: 100%)[
+  #grid(
+    columns: (auto, 1fr),
+    column-gutter: 5pt,
+    align: horizon,
+    box(fill: accent, radius: 3pt, inset: (x: 5pt, y: 1.8pt))[
+      #text(size: fs-tag, weight: "bold", fill: white)[#label]
+    ],
+    if subtitle == none { [] } else { text(size: 7.4pt, weight: "bold", fill: navy)[#subtitle] },
+  )
+]
+
+// A denser labelled step than flow-node: tag + title + explanatory body.
+#let flow-card(tag, title, body, accent: auto, height: auto) = _with-auto-accent(accent, accent => block(
+  width: 100%,
+  height: height,
+  fill: white,
+  radius: card-radius,
+  stroke: 0.65pt + accent.lighten(35%),
+  inset: (x: 8pt, y: 6pt),
+)[
+  #grid(
+    columns: (auto, 1fr),
+    column-gutter: 8pt,
+    align: (top, top),
+    box(fill: accent, inset: (x: 5pt, y: 2pt), radius: 4pt)[
+      #text(size: fs-tag, weight: "bold", fill: white)[#tag]
+    ],
+    stack(
+      dir: ttb,
+      spacing: 3.2pt,
+      text(size: fs-card-title, weight: "bold", fill: navy)[#title],
+      text(size: fs-card-body, fill: ink)[#set par(leading: 0.90em); #body],
+    ),
+  )
+])
+
+// General compact chip. Explicit accents encode status; auto accents support
+// neutral lists that should follow the configured palette.
+#let chip(label, accent: auto, size: fs-tag, prominent: false) = _with-auto-accent(accent, accent => box(
+  fill: accent.lighten(if prominent { 86% } else { 92% }),
+  stroke: 0.65pt + accent.lighten(40%),
+  radius: 3pt,
+  inset: (x: 5pt, y: 2.4pt),
+)[
+  #text(size: size, weight: "bold", fill: accent)[#label]
+])
+
+// Chart or diagram legend entry with a consumer-provided swatch.
+#let legend-item(swatch, label, size: fs-card-note, gap: 4pt) = grid(
+  columns: (auto, 1fr),
+  column-gutter: gap,
+  align: horizon,
+  swatch,
+  text(size: size, fill: ink)[#label],
+)
+
+// Rich comparison list: arbitrary cells plus a textual verdict. This fills
+// the gap between data-table (exact values) and compare-matrix (simple marks).
+#let comparison-row(
+  tag,
+  title,
+  subtitle,
+  cells,
+  verdict,
+  accent: auto,
+  emphasized: false,
+) = (
+  tag: tag,
+  title: title,
+  subtitle: subtitle,
+  cells: cells,
+  verdict: verdict,
+  accent: accent,
+  emphasized: emphasized,
+)
+
+#let _render-comparison-row(row, columns) = _with-auto-accent(row.accent, accent => block(
+  width: 100%,
+  fill: if row.emphasized { accent.lighten(93%) } else { white },
+  radius: 5pt,
+  stroke: if row.emphasized { 0.85pt + accent.lighten(25%) } else { card-stroke },
+  inset: (x: 8pt, y: 5pt),
+)[
+  #let first = stack(
+    dir: ttb,
+    spacing: 1.5pt,
+    box(fill: accent, inset: (x: 4pt, y: 1pt), radius: 3pt)[
+      #text(size: fs-label, weight: "bold", fill: white)[#row.tag]
+    ],
+    text(size: 7.4pt, weight: "bold", fill: if row.emphasized { accent } else { navy })[#row.title],
+    text(size: fs-label, fill: muted-color)[#row.subtitle],
+  )
+  #grid(
+    columns: columns,
+    column-gutter: 5pt,
+    align: (x, y) => if x == 0 or x == columns.len() - 1 { left + horizon } else { center + horizon },
+    first,
+    ..row.cells,
+    text(size: fs-compact-body, weight: "bold", fill: accent)[#row.verdict],
+  )
+])
+
+#let comparison-list(headers, ..rows, columns: auto, gap: 4pt) = {
+  let items = rows.pos()
+  assert(headers.len() >= 3, message: "comparison-list requires at least three headers")
+  for item in items {
+    assert(item.cells.len() == headers.len() - 2, message: "comparison-row cell count must match comparison-list headers")
+  }
+  let resolved-columns = if columns == auto {
+    (2.40cm,) + range(headers.len() - 2).map(_ => 1fr) + (1.70fr,)
+  } else {
+    columns
+  }
+  assert(resolved-columns.len() == headers.len(), message: "comparison-list columns must match headers")
+  stack(
+    dir: ttb,
+    spacing: gap,
+    grid(
+      columns: resolved-columns,
+      column-gutter: 5pt,
+      align: (x, y) => if x == 0 or x == resolved-columns.len() - 1 { left + horizon } else { center + horizon },
+      ..headers.map(header => text(size: fs-card-note, weight: "bold", fill: muted-color)[#header]),
+    ),
+    ..items.map(item => _render-comparison-row(item, resolved-columns)),
+  )
+}
+
+// Argument builder for media-card key/value details.
+#let spec-row(key, value) = (key: key, value: value)
+
+#let _media-content(media) = if type(media) == str {
+  image(media, width: 100%, height: 100%, fit: "contain")
+} else {
+  media
+}
+
+// Annotated visual card. Optional tag, badge, specs, and footer subsume the
+// repeated workload/topology/pose/panel helpers found in consumer decks.
+#let media-card(
+  title,
+  media,
+  subtitle: none,
+  tag: none,
+  badge: none,
+  specs: (),
+  footer: none,
+  accent: auto,
+  height: 4.10cm,
+) = _with-auto-accent(accent, accent => {
+  let details = specs.map(spec => grid(
+    columns: (auto, 1fr),
+    column-gutter: 5pt,
+    align: (left + horizon, left + horizon),
+    text(size: fs-label, weight: "bold", fill: accent)[#spec.key],
+    text(size: fs-label, fill: ink)[#spec.value],
+  ))
+  if footer != none {
+    details.push(text(size: 5.9pt, weight: "bold", fill: accent)[#footer])
+  }
+  block(
+    width: 100%,
+    height: height,
+    fill: white,
+    radius: 5pt,
+    stroke: (left: 2.2pt + accent, rest: 0.55pt + accent.lighten(40%)),
+    clip: true,
+    inset: 0pt,
+  )[
+    #grid(
+      columns: 1fr,
+      rows: (auto, 1fr, auto),
+      block(width: 100%, fill: accent.lighten(93%), inset: (x: 7pt, y: 5pt))[
+        #grid(
+          columns: (auto, 1fr, auto),
+          column-gutter: 5pt,
+          align: horizon,
+          if tag == none { [] } else {
+            box(fill: accent, inset: (x: 4pt, y: 1pt), radius: 3pt)[
+              #text(size: fs-label, weight: "bold", fill: white)[#tag]
+            ]
+          },
+          stack(
+            dir: ttb,
+            spacing: 1.5pt,
+            text(size: 7.4pt, weight: "bold", fill: navy)[#title],
+            if subtitle == none { [] } else { text(size: fs-label, fill: muted-color)[#subtitle] },
+          ),
+          if badge == none { [] } else { chip(badge, accent: accent, size: fs-card-note) },
+        )
+      ],
+      block(width: 100%, height: 100%, inset: (x: 5pt, y: 3pt))[
+        #align(center + horizon)[#_media-content(media)]
+      ],
+      if details.len() == 0 { [] } else {
+        block(width: 100%, fill: accent.lighten(94%), stroke: (top: 0.5pt + accent.lighten(55%)), inset: (x: 7pt, y: 4pt))[
+          #stack(dir: ttb, spacing: 2.2pt, ..details)
+        ]
+      },
+    )
+  ]
+})
+
+// Builder and renderer for responsibility or architecture layers.
+#let layer(title, body, accent: auto) = (title: title, body: body, accent: accent)
+
+#let _render-layer(item) = _with-auto-accent(item.accent, accent => block(
+  width: 100%,
+  fill: accent.lighten(93%),
+  stroke: 0.6pt + accent.lighten(42%),
+  radius: 4pt,
+  inset: (x: 7pt, y: 5pt),
+)[
+  #stack(
+    dir: ttb,
+    spacing: 2.5pt,
+    text(size: 7.2pt, weight: "bold", fill: accent)[#item.title],
+    text(size: fs-compact-body, fill: ink)[#set par(leading: 0.90em); #item.body],
+  )
+])
+
+#let layer-stack(..layers, gap: 0.10cm) = stack(
+  dir: ttb,
+  spacing: gap,
+  ..layers.pos().map(_render-layer),
+)
+
+// Builder and renderer for a vertical ladder with optional visual evidence.
+#let ladder-step(marker, title, metric, body, media: none, accent: auto, height: auto) = (
+  marker: marker,
+  title: title,
+  metric: metric,
+  body: body,
+  media: media,
+  accent: accent,
+  height: height,
+)
+
+#let _ladder-media-content(media, media-width) = if type(media) == str {
+  image(media, width: media-width, height: 0.72cm, fit: "contain")
+} else {
+  media
+}
+
+#let _render-ladder-step(item, media-width) = _with-auto-accent(item.accent, accent => {
+  let columns = if item.media == none { (auto, 1fr) } else { (auto, media-width, 1fr) }
+  let cells = (
+    circle(radius: 5.5pt, fill: accent)[
+      #align(center + horizon)[#text(size: fs-tag, weight: "bold", fill: white)[#item.marker]]
+    ],
+  )
+  if item.media != none {
+    cells.push(align(center + horizon)[#_ladder-media-content(item.media, media-width)])
+  }
+  cells.push(stack(
+    dir: ttb,
+    spacing: 1.5pt,
+    text(size: 7.4pt, weight: "bold", fill: accent)[#item.title],
+    text(size: fs-card-note, weight: "bold", fill: muted-color)[#item.metric],
+    text(size: fs-compact-body, fill: ink)[#set par(leading: 0.90em); #item.body],
+  ))
+  block(
+    width: 100%,
+    height: item.height,
+    fill: accent.lighten(94%),
+    stroke: 0.7pt + accent.lighten(42%),
+    radius: 4pt,
+    inset: (x: 6pt, y: 4pt),
+  )[
+    #grid(
+      columns: columns,
+      column-gutter: 6pt,
+      align: (x, y) => if x < columns.len() - 1 { center + horizon } else { left + horizon },
+      ..cells,
+    )
+  ]
+})
+
+#let ladder(..steps, gap: 3pt, connectors: true, media-width: 1.60cm) = {
+  let source = steps.pos()
+  let items = ()
+  for i in range(source.len()) {
+    items.push(_render-ladder-step(source.at(i), media-width))
+    if connectors and i < source.len() - 1 {
+      items.push(step-hint())
+    }
+  }
+  stack(dir: ttb, spacing: gap, ..items)
+}
+
+// Header metadata plus a concise referenced claim or evidence statement.
+#let reference-card(kind, title, reference, body, accent: auto, height: auto) = _with-auto-accent(accent, accent => block(
+  width: 100%,
+  height: height,
+  fill: white,
+  radius: card-radius,
+  stroke: card-stroke,
+  clip: true,
+  inset: 0pt,
+)[
+  #grid(
+    columns: 1fr,
+    rows: if height == auto { (auto, auto) } else { (auto, 1fr) },
+    block(width: 100%, fill: accent, inset: (x: 7pt, y: 3pt))[
+      #grid(
+        columns: (auto, 1fr, auto),
+        column-gutter: 6pt,
+        align: horizon,
+        box(fill: white.transparentize(82%), inset: (x: 4pt, y: 1pt), radius: 3pt)[
+          #text(size: fs-card-note, weight: "bold", fill: white)[#kind]
+        ],
+        text(size: 7.2pt, weight: "bold", fill: white)[#title],
+        text(size: fs-card-note, weight: "bold", fill: white.transparentize(10%))[#reference],
+      )
+    ],
+    block(width: 100%, height: if height == auto { auto } else { 100% }, inset: (x: 7pt, y: 5pt))[
+      #if height == auto {
+        text(size: fs-compact-body, fill: ink)[#set par(leading: 0.90em); #body]
+      } else {
+        align(horizon)[#text(size: fs-compact-body, fill: ink)[#set par(leading: 0.90em); #body]]
+      }
+    ],
+  )
+])
 
 // ---- Dense Slide Utilities ---------------------------------------------
 
@@ -1300,7 +1724,7 @@
   ..items.map(it => bullet-row(it, accent, fill: fill, size: size)),
 ))
 
-#let flow-node(name, detail, fill: pale, accent: auto, text-color: ink, height: 0.82cm) = _with-auto-accent(
+#let flow-node(name, detail, fill: pale, accent: auto, text-color: ink, height: 0.90cm) = _with-auto-accent(
   accent,
   accent => rect(
     width: 100%,
@@ -1314,8 +1738,8 @@
       #stack(
         dir: ttb,
         spacing: 2pt,
-        align(center, text(size: 6.4pt, weight: "bold", fill: text-color)[#name]),
-        align(center, text(size: 5.1pt, fill: text-color)[#detail]),
+        align(center, text(size: 6.6pt, weight: "bold", fill: text-color)[#name]),
+        align(center, text(size: fs-label, fill: text-color)[#detail]),
       )
     ]
   ],
@@ -1326,7 +1750,7 @@
     dir: ttb,
     spacing: 2pt,
     align(center, text(size: 9pt, fill: accent)[→]),
-    align(center, text(size: 4.9pt, fill: muted-color)[#label]),
+    align(center, text(size: fs-label, fill: muted-color)[#label]),
   )
 ]
 
@@ -1357,7 +1781,7 @@
   reason-label: [关键问题],
   impact-label: [失效表现],
   accent: auto,
-  height: 1.12cm,
+  height: 1.30cm,
 ) = _with-auto-accent(accent, accent => rect(
   width: 100%,
   height: height,
@@ -1373,16 +1797,16 @@
       #stack(
         dir: ttb,
         spacing: 3.8pt,
-        text(size: 6.4pt, weight: "bold", fill: accent)[#name],
+        text(size: 6.6pt, weight: "bold", fill: accent)[#name],
         grid(
           columns: (0.86cm, 1fr),
           column-gutter: 3pt,
-          text(size: 5.25pt, fill: muted-color)[#reason-label], text(size: 5.25pt, fill: ink)[#reason],
+          text(size: fs-label, fill: muted-color)[#reason-label], text(size: fs-card-note, fill: ink)[#reason],
         ),
         grid(
           columns: (0.86cm, 1fr),
           column-gutter: 3pt,
-          text(size: 5.25pt, fill: muted-color)[#impact-label], text(size: 5.25pt, fill: ink)[#impact],
+          text(size: fs-label, fill: muted-color)[#impact-label], text(size: fs-card-note, fill: ink)[#impact],
         ),
       )
     ],
@@ -1402,7 +1826,7 @@
   labels,
   values,
   accent: auto,
-  height: 1.02cm,
+  height: 1.15cm,
   left-width: 3.00cm,
   label-width: 1.45cm,
 ) = _with-auto-accent(accent, accent => rect(
@@ -1421,7 +1845,7 @@
           dir: ttb,
           spacing: 2pt,
           text(size: 8.1pt, weight: "bold", fill: white)[#title],
-          text(size: 5.4pt, weight: "bold", fill: white)[#subtitle],
+          text(size: fs-card-note, weight: "bold", fill: white)[#subtitle],
         )
       ]
     ],
@@ -1429,14 +1853,14 @@
       #stack(
         dir: ttb,
         spacing: 4pt,
-        ..labels.map(label => text(size: 5.55pt, weight: "bold", fill: muted-color)[#label]),
+        ..labels.map(label => text(size: fs-card-note, weight: "bold", fill: muted-color)[#label]),
       )
     ],
     box(inset: (x: 6pt, y: 6pt))[
       #stack(
         dir: ttb,
         spacing: 4pt,
-        ..values.map(value => text(size: 5.95pt, fill: ink)[#value]),
+        ..values.map(value => text(size: 6.2pt, fill: ink)[#value]),
       )
     ],
   )
@@ -1509,9 +1933,9 @@
         #stack(dir: ttb, spacing: 5pt,
           grid(columns: (1fr, auto), align: (left + horizon, right + horizon),
             text(size: 8pt, weight: "bold", fill: title-color)[#title],
-            text(size: 5.3pt, fill: muted-color)[#tag],
+            text(size: fs-label, fill: muted-color)[#tag],
           ),
-          text(size: 6.05pt, fill: ink)[#set par(leading: 0.9em); #body],
+          text(size: fs-card-body, fill: ink)[#set par(leading: 0.9em); #body],
         )
       ],
     )
@@ -1571,7 +1995,7 @@
       ..xs.map(m => block(inset: (x: 7pt))[
         #stack(dir: ttb, spacing: 4pt,
           align(center, text(size: 7.4pt, weight: "bold", fill: navy)[#m.title]),
-          text(size: 6.4pt, fill: ink)[#set par(leading: 0.92em); #m.body],
+          text(size: fs-compact-body, fill: ink)[#set par(leading: 0.92em); #m.body],
         )
       ])),
   )
@@ -1582,24 +2006,33 @@
 // 结论 / 方法 / 反例 / 观察（其它取值用默认蓝）。
 #let _claim-kind-color(kind) = if kind == [命题] { violet-color } else if kind == [结论] { ok-color } else if kind == [方法] { warn-color } else if kind == [反例] { danger-color } else if kind == [观察] { cyan-color } else if kind == [前提] { cyan-color } else { info-color }
 
-#let claim-block(kind, title, body, accent: auto, compact: false) = {
+#let claim-block(kind, title, body, accent: auto, compact: false, height: auto) = {
   let ac = if accent == auto { _claim-kind-color(kind) } else { accent }
   let body-pad = if compact { (x: 9pt, y: 5pt) } else { (x: 10pt, y: 8pt) }
   let head-pad = if compact { (x: 9pt, y: 3pt) } else { (x: 9pt, y: 4.5pt) }
-  block(width: 100%, fill: white, radius: card-radius, stroke: card-stroke, clip: true, inset: 0pt)[
-    // Zero-spacing stack: sibling blocks would otherwise get par spacing
-    // between the banner and the body, leaving a lopsided white gap.
-    #stack(dir: ttb, spacing: 0pt,
-      block(width: 100%, fill: ac, inset: head-pad)[
-        #grid(columns: (auto, 1fr), column-gutter: 8pt, align: horizon,
-          box(fill: white.transparentize(80%), inset: (x: 5pt, y: 1.5pt), radius: 4pt, text(size: fs-tag, weight: "bold", fill: white)[#kind]),
-          text(size: fs-card-title, weight: "bold", fill: white)[#title],
-        )
-      ],
-      block(width: 100%, inset: body-pad)[
-        #text(size: 6.2pt, fill: ink)[#set par(leading: 0.88em); #body]
-      ],
+  let head = block(width: 100%, fill: ac, inset: head-pad)[
+    #grid(columns: (auto, 1fr), column-gutter: 8pt, align: horizon,
+      box(fill: white.transparentize(80%), inset: (x: 5pt, y: 1.5pt), radius: 4pt, text(size: fs-tag, weight: "bold", fill: white)[#kind]),
+      text(size: fs-card-title, weight: "bold", fill: white)[#title],
     )
+  ]
+  let body-block = block(width: 100%, inset: body-pad)[
+    #text(size: fs-compact-body, fill: ink)[#set par(leading: 0.90em); #body]
+  ]
+  block(width: 100%, height: height, fill: white, radius: card-radius, stroke: card-stroke, clip: true, inset: 0pt)[
+    #if height == auto {
+      // Zero-spacing stack avoids a paragraph gap between header and body.
+      stack(dir: ttb, spacing: 0pt, head, body-block)
+    } else {
+      grid(
+        columns: 1fr,
+        rows: (auto, 1fr),
+        head,
+        block(width: 100%, height: 100%, inset: body-pad)[
+          #align(horizon)[#text(size: fs-compact-body, fill: ink)[#set par(leading: 0.90em); #body]]
+        ],
+      )
+    }
   ]
 }
 
@@ -1622,9 +2055,9 @@
           #stack(dir: ttb, spacing: 4.5pt,
             grid(columns: (auto, 1fr), column-gutter: 6pt, align: horizon,
               text(size: 9pt, weight: "bold", fill: accent)[#numbering("①", i + 1)],
-              text(size: 7.2pt, weight: "bold", fill: navy)[#f.title],
-            ),
-            text(size: 5.9pt, fill: ink)[#set par(leading: 0.9em); #f.body],
+            text(size: 7.4pt, weight: "bold", fill: navy)[#f.title],
+          ),
+            text(size: fs-compact-body, fill: ink)[#set par(leading: 0.9em); #f.body],
           )
         ]),
       ),
@@ -1637,20 +2070,22 @@
 // 左侧色条 + 标签药丸 + 浅底，区别于 claim-block 的实心标题栏。
 #let _admonition-color(kind) = if kind == [注意] { warn-color } else if kind == [风险] { danger-color } else if kind == [经验] { ok-color } else if kind == [前提] { violet-color } else { info-color }
 
-#let admonition(kind, body, accent: auto) = {
+#let admonition(kind, body, accent: auto, pad: (x: 9pt, y: 6.5pt), height: auto) = {
   let ac = if accent == auto { _admonition-color(kind) } else { accent }
   // The accent bar is a left stroke (like vcard), not a clipped filled cell:
   // a 3pt cell inside an 8pt-radius clip degenerates into a sliver on
   // single-line admonitions.
   block(
-    width: 100%, fill: ac.lighten(92%), radius: 8pt,
+    width: 100%, height: height, fill: ac.lighten(92%), radius: 8pt,
     stroke: (left: card-accent-stroke + ac, rest: 0.5pt + ac.lighten(45%)),
-    inset: (x: 9pt, y: 6.5pt),
+    inset: pad,
   )[
-    #grid(columns: (auto, 1fr), column-gutter: 8pt, align: (left + horizon, left + horizon),
-      box(fill: ac, inset: (x: 5pt, y: 1.5pt), radius: 4pt)[#text(size: 6pt, weight: "bold", fill: white)[#kind]],
-      text(size: 6.6pt, fill: ink)[#set par(leading: 0.92em); #body],
-    )
+    #align(horizon)[
+      #grid(columns: (auto, 1fr), column-gutter: 8pt, align: (left + horizon, left + horizon),
+        box(fill: ac, inset: (x: 5pt, y: 1.5pt), radius: 4pt)[#text(size: fs-tag, weight: "bold", fill: white)[#kind]],
+        text(size: fs-card-body, fill: ink)[#set par(leading: 0.92em); #body],
+      )
+    ]
   ]
 }
 
@@ -1661,8 +2096,8 @@
   radius: 7pt, stroke: 0.6pt + accent.lighten(35%), inset: (x: 8pt, y: 7pt),
 )[
   #stack(dir: ttb, spacing: 4pt,
-    text(size: 7pt, weight: "bold", fill: accent)[#title],
-    text(size: 5.7pt, fill: ink)[#set par(leading: 0.9em); #body],
+    text(size: 7.4pt, weight: "bold", fill: accent)[#title],
+    text(size: fs-compact-body, fill: ink)[#set par(leading: 0.9em); #body],
   )
 ]
 #let quadrant(
@@ -1672,7 +2107,7 @@
   box(width: 100%, height: height)[
     #let cell(c, accent) = if c == none { block() } else { _qcell(c.title, c.body, accent) }
     #grid(columns: (0.46cm, 1fr), column-gutter: 5pt, rows: 100%,
-      grid.cell(align: center + horizon, rotate(-90deg, reflow: true, text(size: 6pt, weight: "bold", fill: muted-color)[#y-axis #sym.arrow.t])),
+      grid.cell(align: center + horizon, rotate(-90deg, reflow: true, text(size: fs-tag, weight: "bold", fill: muted-color)[#y-axis #sym.arrow.t])),
       grid.cell(grid(columns: (1fr, 1fr), rows: (1fr, 1fr), column-gutter: 0.16cm, row-gutter: 0.16cm,
         cell(tl, accents.at(0)),
         cell(tr, accents.at(1)),
@@ -1683,22 +2118,22 @@
   ],
   grid(columns: (0.46cm, 1fr),
     grid.cell[],
-    grid.cell(align: center, text(size: 6pt, weight: "bold", fill: muted-color)[#x-axis #sym.arrow.r]),
+    grid.cell(align: center, text(size: fs-tag, weight: "bold", fill: muted-color)[#x-axis #sym.arrow.r]),
   ),
 )
 
 // ---- Logic component: compare-matrix（特性矩阵：行=候选，列=判据） -----
 // 格子标记：'y' = ✓、'n' = ✗、'p' = ◐（勉强），其余字符串原样渲染。
-#let _mk(m) = if m == "y" { text(size: 7pt, weight: "bold", fill: ok-color)[#sym.checkmark] } else if m == "n" { text(size: 7pt, weight: "bold", fill: danger-color)[#sym.times] } else if m == "p" { text(size: 7.5pt, fill: warn-color)[◐] } else { text(size: 5.8pt, fill: muted-color)[#m] }
+#let _mk(m) = if m == "y" { text(size: 7pt, weight: "bold", fill: ok-color)[#sym.checkmark] } else if m == "n" { text(size: 7pt, weight: "bold", fill: danger-color)[#sym.times] } else if m == "p" { text(size: 7.5pt, fill: warn-color)[◐] } else { text(size: fs-card-note, fill: muted-color)[#m] }
 #let mrow(name, ..marks) = (name: name, marks: marks.pos())
 #let compare-matrix(criteria, ..rows, name-width: 3.0cm, accent: info-color, corner: []) = {
   let rs = rows.pos()
   let cells = ()
-  cells.push(grid.cell(fill: accent, inset: (x: 7pt, y: 5pt))[#text(size: 6pt, weight: "bold", fill: white)[#corner]])
-  for c in criteria { cells.push(grid.cell(fill: accent, inset: (x: 4pt, y: 5pt))[#align(center, text(size: 6pt, weight: "bold", fill: white)[#c])]) }
+  cells.push(grid.cell(fill: accent, inset: (x: 7pt, y: 5pt))[#text(size: fs-tag, weight: "bold", fill: white)[#corner]])
+  for c in criteria { cells.push(grid.cell(fill: accent, inset: (x: 4pt, y: 5pt))[#align(center, text(size: fs-tag, weight: "bold", fill: white)[#c])]) }
   for (ri, r) in rs.enumerate() {
     let bg = if calc.even(ri) { white } else { rowalt }
-    cells.push(grid.cell(fill: bg, inset: (x: 7pt, y: 5pt))[#text(size: 6.2pt, weight: "bold", fill: navy)[#r.name]])
+    cells.push(grid.cell(fill: bg, inset: (x: 7pt, y: 5pt))[#text(size: fs-compact-body, weight: "bold", fill: navy)[#r.name]])
     for m in r.marks { cells.push(grid.cell(fill: bg, inset: (x: 4pt, y: 5pt))[#align(center + horizon, _mk(m))]) }
   }
   block(width: 100%, radius: 8pt, clip: true, stroke: 0.4pt + border, inset: 0pt)[
@@ -1708,7 +2143,7 @@
 
 // Legend line matching compare-matrix marks. Pass label overrides per deck,
 // e.g. matrix-legend(yes: [满足], no: [结构性短板]).
-#let matrix-legend(yes: [契合], partial: [勉强], no: [不适], size: 5.7pt) = text(size: size, fill: muted-color)[
+#let matrix-legend(yes: [契合], partial: [勉强], no: [不适], size: fs-card-note) = text(size: size, fill: muted-color)[
   #text(fill: ok-color, weight: "bold")[#sym.checkmark] #yes#h(4pt)·#h(4pt)#text(fill: warn-color)[◐] #partial#h(4pt)·#h(4pt)#text(fill: danger-color, weight: "bold")[#sym.times] #no
 ]
 
@@ -1723,13 +2158,13 @@
   ]),
   stack(dir: ttb, spacing: 2.5pt,
     text(size: 7.6pt, weight: "bold", fill: navy)[#s.title],
-    text(size: 6.1pt, fill: ink)[#set par(leading: 0.9em); #s.body],
+    text(size: fs-compact-body, fill: ink)[#set par(leading: 0.9em); #s.body],
   ),
 )
 #let _cedge(label) = grid(
   columns: (16pt, 1fr), column-gutter: 9pt, align: (center + horizon, left + horizon),
   text(size: 9pt, fill: ghost-color)[#sym.arrow.b],
-  if label == none { [] } else { text(size: 6pt, weight: "bold", fill: muted-color)[#label] },
+  if label == none { [] } else { text(size: fs-tag, weight: "bold", fill: muted-color)[#label] },
 )
 #let causal-chain(..steps, spacing: 4.5pt) = {
   let ss = steps.pos()
@@ -1805,7 +2240,7 @@
 #let pyramid-claim(claim, ..supports, accent: info-color, support-height: 2.7cm) = stack(dir: ttb, spacing: 0.16cm,
   block(width: 100%, fill: accent, radius: 9pt, inset: (x: 0.32cm, y: 0.2cm))[
     #grid(columns: (auto, 1fr), column-gutter: 9pt, align: horizon,
-      text(size: 6.4pt, weight: "bold", fill: white.transparentize(12%))[主张],
+      text(size: fs-compact-body, weight: "bold", fill: white.transparentize(12%))[主张],
       text(size: 9pt, weight: "bold", fill: white)[#set par(leading: 0.9em); #claim],
     )
   ],
@@ -1816,10 +2251,10 @@
       )[
         #stack(dir: ttb, spacing: 4pt,
           grid(columns: (auto, 1fr), column-gutter: 6pt, align: horizon,
-            box(circle(fill: accent, radius: 5.5pt)[#align(center + horizon, text(size: 6pt, weight: "bold", fill: white)[#(i + 1)])]),
-            text(size: 6.8pt, weight: "bold", fill: navy)[#s.title],
+            box(circle(fill: accent, radius: 5.5pt)[#align(center + horizon, text(size: fs-tag, weight: "bold", fill: white)[#(i + 1)])]),
+            text(size: 7.2pt, weight: "bold", fill: navy)[#s.title],
           ),
-          text(size: 5.8pt, fill: ink)[#set par(leading: 0.9em); #s.body],
+          text(size: fs-compact-body, fill: ink)[#set par(leading: 0.9em); #s.body],
         )
       ]),
     )
@@ -1831,9 +2266,9 @@
 #let mlevel(dim, level, note) = (dim: dim, level: level, note: note)
 #let rating-list(..rows, accent: info-color, levels: 4, dim-width: 3.0cm, gap: 6pt) = stack(dir: ttb, spacing: gap,
   ..rows.pos().map(r => grid(columns: (dim-width, auto, 1fr), column-gutter: 10pt, align: (left + horizon, left + horizon, left + horizon),
-    text(size: 6.4pt, weight: "bold", fill: navy)[#r.dim],
+    text(size: 6.6pt, weight: "bold", fill: navy)[#r.dim],
     box[#range(levels).map(k => text(size: 8.5pt, fill: if k < r.level { accent } else { accent.lighten(78%) })[#sym.circle.filled]).join(h(2pt))],
-    text(size: 5.9pt, fill: muted-color)[#r.note],
+    text(size: 6.2pt, fill: muted-color)[#r.note],
   )),
 )
 
@@ -1885,7 +2320,7 @@
   ]
 ]
 
-#let data-table(rows, columns: auto, highlight-last: true, size: auto, outer-stroke: none) = {
+#let data-table(rows, columns: auto, highlight-last: true, size: auto, outer-stroke: none, row-height: auto) = {
   context {
     let palette = accent-palette-config.get()
     let cols = rows.at(0).len()
@@ -1912,6 +2347,7 @@
     )[
       #table(
         columns: table-column-spec,
+        rows: if row-height == auto { auto } else { row-height },
         stroke: white,
         inset: (x: 7.4pt, y: 6.2pt),
         align: (x, y) => if x == 1 { center + horizon } else { left + horizon },
@@ -1961,8 +2397,10 @@
 #let _public-profile(config) = if config.canvas.profile == "wide" {
   (
     margin-x: 1.15cm,
-    margin-top: 1.16cm,
+    margin-top: 1.32cm,
     margin-bottom: 0.78cm,
+    header-top: 0.26cm,
+    header-rule-gap: 0.10cm,
     title-x: 1.50cm,
     title-y: 2.20cm,
     title-width: 19.2cm,
@@ -1971,8 +2409,10 @@
 } else {
   (
     margin-x: 0.82cm,
-    margin-top: 1.26cm,
+    margin-top: 1.40cm,
     margin-bottom: 0.96cm,
+    header-top: 0.28cm,
+    header-rule-gap: 0.10cm,
     title-x: 1.12cm,
     title-y: 2.10cm,
     title-width: 12.8cm,
@@ -2058,16 +2498,24 @@
   let mark-reserve = config.brand.header-reserve
   let rule-width = config.canvas.width - 2 * profile.margin-x - mark-reserve
   [
-    #place(top + left, dx: profile.margin-x, dy: 0.34cm)[
+    // Keep the title and separator in one flow-based header. Independent
+    // absolute placements made the rule cut through 18–20pt mixed-script
+    // titles and left no stable optical gap before the lead.
+    #place(top + left, dx: profile.margin-x, dy: profile.header-top)[
       #box(width: rule-width)[
-        #text(size: config.typography.slide-title-size, weight: "bold", fill: config.palette.navy)[#title]
+        #stack(
+          dir: ttb,
+          spacing: profile.header-rule-gap,
+          text(size: config.typography.slide-title-size, weight: "bold", fill: config.palette.navy)[
+            #set par(leading: 0.86em)
+            #title
+          ],
+          _public-brand-rule(config, length: rule-width, thickness: 0.58pt),
+        )
       ]
     ]
-    #place(top + left, dx: profile.margin-x, dy: 0.88cm)[
-      #_public-brand-rule(config, length: rule-width, thickness: 0.58pt)
-    ]
     #if config.brand.header-mark != none {
-      place(top + right, dx: -profile.margin-x, dy: 0.24cm, config.brand.header-mark)
+      place(top + right, dx: -profile.margin-x, dy: 0.22cm, config.brand.header-mark)
     }
     #if takeaway != none {
       place(bottom + left, dx: profile.margin-x, dy: -0.48cm)[
@@ -2115,7 +2563,7 @@
   if height == auto {
     block(width: 100%, height: 100%)[
       #if lead != none {
-        text(size: 7.7pt, fill: config.palette.muted)[#lead]
+        text(size: 7.8pt, fill: config.palette.muted)[#lead]
         v(0.22cm)
       }
       #rendered
@@ -2182,14 +2630,14 @@
           #set par(leading: 0.84em)
           #resolved-title
         ]
-        #v(0.18cm)
-        #text(size: 11pt, weight: "medium", fill: foreground.transparentize(18%))[
+        #v(0.22cm)
+        #text(size: 10.5pt, weight: "medium", fill: foreground.transparentize(18%))[
           #resolved-subtitle
         ]
-        #v(0.22cm)
+        #v(0.24cm)
         #_public-brand-rule(config, length: profile.title-width, thickness: 0.82pt, dark: true)
-        #v(0.28cm)
-        #text(size: 7.4pt, fill: foreground.transparentize(24%))[
+        #v(0.30cm)
+        #text(size: 7.2pt, fill: foreground.transparentize(24%))[
           #if resolved-author != [] and resolved-author != none {
             text(weight: "semibold", fill: foreground)[#resolved-author]
             h(0.22cm)
@@ -2242,12 +2690,12 @@
         #text(size: 7.8pt, weight: "bold", fill: foreground.transparentize(24%))[
           #resolved-label
         ]
-        #v(0.36cm)
-        #text(size: config.typography.deck-title-size * 0.72, weight: "bold", fill: foreground)[
+        #v(0.30cm)
+        #text(size: config.typography.deck-title-size * 0.75, weight: "bold", fill: foreground)[
           #set par(leading: 0.86em)
           #resolved-title
         ]
-        #v(0.26cm)
+        #v(0.20cm)
         #_public-brand-rule(config, length: profile.section-width, thickness: 0.86pt, dark: true)
         #if body != [] {
           v(0.28cm)

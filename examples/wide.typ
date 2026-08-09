@@ -1,27 +1,32 @@
 #import "../lib.typ" as brief
+#import "../extensions/attractor.typ" as attractor
+#import "component-catalog.typ": component-catalog
 
-#let config = brief.theme-config(canvas: brief.canvas(..brief.wide-canvas))
+#let config = brief.theme-config(
+  canvas: brief.canvas(..brief.wide-canvas),
+  palette: brief.palette(accents: brief.palettes.semantic),
+  typography: brief.typography(),
+  brand: brief.brand(),
+  background: attractor.provider(mode: "cached"),
+)
 #let info = brief.metadata(
-  title: [Ultra-wide Technical Brief],
-  subtitle: [30 cm × 10 cm formal profile],
+  title: [Technical Brief Component Reference],
+  subtitle: [Ultra-wide 3:1 · complete component catalog],
   author: [DeepLink Community],
-  institution: [Open technical communication],
+  institution: [Open technical communication · examples/wide.typ],
   date: datetime(year: 2026, month: 8, day: 9),
 )
 
 #show: brief.theme.with(config: config, metadata: info)
 
-#brief.title-slide()
-
-#brief.content-slide(
-  [A panoramic canvas without a second theme],
-  takeaway: [The skeleton stays the same; geometry adapts at the profile boundary.],
-)[
-  #brief.columns(
-    (1fr, 1fr, 1fr, 1fr),
-    brief.card([Canvas])[Arbitrary positive width and height.],
-    brief.card([Profile])[Auto switches to wide at aspect ratio 2.25.],
-    brief.card([Brand])[Marks and backgrounds arrive as content slots.],
-    brief.card([Components])[The same semantic component namespace.],
-  )
-]
+#component-catalog(
+  profile-name: [Ultra-wide 3:1],
+  canvas-label: [30 cm × 10 cm],
+  sample-images: (
+    "/assets/attractor/wide/dark-1.svg",
+    "/assets/attractor/wide/dark-2.svg",
+    "/assets/attractor/wide/dark-3.svg",
+    "/assets/attractor/wide/dark-4.svg",
+    "/assets/attractor/wide/dark-5.svg",
+  ),
+)

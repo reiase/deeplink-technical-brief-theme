@@ -2,7 +2,7 @@
 
 A reusable Typst/Touying system for engineering reports and technical presentations. It keeps slide structure, canvas geometry, typography, brand slots, and optional backgrounds behind one explicit configuration object.
 
-[中文文档](docs/README.zh-CN.md) · [Configuration](docs/configuration.md) · [Migration guide](docs/migration.md)
+[中文文档](docs/README.zh-CN.md) · [Configuration](docs/configuration.md) · [Component reference](docs/components.md) · [Consumer audit](docs/consumer-control-audit.md) · [Migration guide](docs/migration.md)
 
 ## What is stable in v0.1.0
 
@@ -58,7 +58,7 @@ Then author a deck through the namespace:
 ]
 ```
 
-See [`examples/standard.typ`](examples/standard.typ) and [`examples/wide.typ`](examples/wide.typ) for complete decks.
+[`examples/standard.typ`](examples/standard.typ) and [`examples/wide.typ`](examples/wide.typ) render the same complete component catalog on both formal canvases. The shared source [`examples/component-catalog.typ`](examples/component-catalog.typ) currently covers all 75 public presentation component APIs, so profile comparisons stay page-for-page identical as the API evolves.
 
 ## Brand assets stay with the consumer
 
