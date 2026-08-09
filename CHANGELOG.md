@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## Unreleased
+
+- Replace the minimal standard and wide examples with one shared, complete component catalog.
+- Render every public visual component page-for-page on both formal canvas profiles.
+- Add a bilingual component inventory and usage map.
+
+## 0.1.1 - 2026-08-09
+
+- Preserve each rendered card as one `card-grid` cell instead of splitting its internal content.
+- Add a four-card regression case to the standard smoke deck.
+
 ## 0.1.0 - 2026-08-09
 
 - Extract the technical brief system into a standalone MIT-licensed repository.
